@@ -1,4 +1,9 @@
 function isEmpty(value){
+    /** Verifica se o valor é nulo, indefinido, string vazia, array vazio ou objeto vazio
+    * @param {any} value - O valor a ser verificado
+    * @autor Darley
+    */
+
     return(
         value === null ||
         value === undefined ||

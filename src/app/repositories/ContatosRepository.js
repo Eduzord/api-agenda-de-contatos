@@ -1,24 +1,13 @@
-import conexao from "../database/index.js"
+import db from "../database/QueryHelper"
 
 class ContatosRepository {
 
-    // Função helper
-    async executarQuery(sql, valores = []) {
-        try {
-            const [rows] = await conexao.query(sql, valores)
-            return rows
-        } catch (erro) {
-            console.error(`Erro no query: ${erro}`)
-            throw erro
-        }
-    }
-
     // Exibir todos os contatos
     async findAll() {
-        const sql = "SELECT * FROM db_agenda.contatos"
+        const sql = "SELECT * FROM db_agenda.tb_contatos"
         try {
 
-            const resultado = await this.executarQuery(sql)
+            const resultado = await db.executarQuery(sql)
             return resultado
 
         } catch (erro) {
@@ -30,10 +19,10 @@ class ContatosRepository {
 
     // Exibir contato por Id
     async findById(id) {
-        const sql = "SELECT * FROM db_agenda.contatos WHERE id_contato=?"
+        const sql = "SELECT * FROM db_agenda.tb_contatos WHERE id_contato=?"
 
         try {
-            const resultado = await this.executarQuery(sql, [id])
+            const resultado = await db.executarQuery(sql, [id])
             return resultado
         } catch (erro) {
             throw new Error(erro)
@@ -46,7 +35,7 @@ class ContatosRepository {
     async storeContato(params) {
         try {
             const sql = `
-            INSERT INTO db_agenda.contatos 
+            INSERT INTO db_agenda.tb_contatos 
             (nome_contato, telefone_contato, celular_contato, email_contato, id_usuario)
             VALUES (?, ?, ?, ?, ?);
         `;
@@ -58,7 +47,7 @@ class ContatosRepository {
                 params.id_usuario
             ];
 
-            const resultado = await this.executarQuery(sql, valores)
+            const resultado = await db.executarQuery(sql, valores)
             return resultado
         } catch (erro) {
             console.log(erro)
@@ -102,13 +91,13 @@ class ContatosRepository {
 
         // Monta a query dinâmica
         const sql = `
-            UPDATE db_agenda.contatos
+            UPDATE db_agenda.tb_contatos
             SET ${setParts.join(", ")}
             WHERE id_contato = ?;
         `;
 
         valores.push(id); // id para WHERE
-            const resultado = await this.executarQuery(sql, valores)
+            const resultado = await db.executarQuery(sql, valores)
             return resultado
         } catch (erro) {
             console.log(erro)
@@ -119,10 +108,10 @@ class ContatosRepository {
 
     // Deletar um contato
     async deleteContato(id) {
-        const sql = "DELETE FROM db_agenda.contatos WHERE id_contato=?"
+        const sql = "DELETE FROM db_agenda.tb_contatos WHERE id_contato=?"
 
         try {
-            const resultado = await this.executarQuery(sql, [id])
+            const resultado = await db.executarQuery(sql, [id])
             return resultado
         } catch (erro) {
             console.log(erro)
