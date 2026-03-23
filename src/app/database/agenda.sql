@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `db_agenda`.`tb_usuarios` (
   `id_usuario` INT NOT NULL AUTO_INCREMENT,
   `nome_usuario` VARCHAR(150) NOT NULL,
   `email_usuario` VARCHAR(150) NOT NULL,
-  `senha_usuario` VARCHAR(50) NOT NULL,
+  `senha_usuario` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id_usuario`),
   UNIQUE (`email_usuario`)
 );

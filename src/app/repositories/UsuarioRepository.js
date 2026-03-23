@@ -1,4 +1,5 @@
 import db from "../database/QueryHelper"
+const { gerarHash } = require('./security/hash');
 
 class ContatosRepository {
 
@@ -31,6 +32,8 @@ class ContatosRepository {
     // Todos os campo são obrigatórios; o email deve ser único
     async storeUsuario(params) {
         try {
+            // Criando hash
+            const hash = await gerarHash(params.senha_usuario);
             const sql = `
             INSERT INTO db_agenda.tb_usuarios 
             (nome_usuario, email_usuario, senha_usuario)
@@ -39,7 +42,7 @@ class ContatosRepository {
             const valores = [
                 params.nome_usuario,
                 params.email_usuario,
-                params.senha_usuario
+                hash
             ];
 
             const resultado = await db.executarQuery(sql, valores)
